@@ -6,40 +6,34 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
   Rigidbody rb;
+  AudioSource audioSource;
   [SerializeField]private float thrustForce = 10f;
   [SerializeField]private float rotationSpeed = 10f;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource =GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    public void Thrust()
     {
-        ProcessThrust();
-        ProcessRotation();
-    }
-
-    private void ProcessThrust()
-    {
-         if(Input.GetKey(KeyCode.W))
-        {
+     
           rb.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
-        }
+          if(!audioSource.isPlaying) audioSource.Play();
+        
     }
 
-    private void ProcessRotation()
+    public void RotateLeft()
     {
+        ApplyRotation(rotationSpeed);
        
-        if(Input.GetKey(KeyCode.A))
-        {
-            ApplyRotation(rotationSpeed);
-        }
-        else if(Input.GetKey(KeyCode.D))
-        {
-           ApplyRotation(-rotationSpeed);
-        }
+    }
+    
+    public void RotateRight()
+    {
+         ApplyRotation(-rotationSpeed);
     }
 
     private void ApplyRotation(float rotationValue)
